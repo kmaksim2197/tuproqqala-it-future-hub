@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Future Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --muted: 210 40% 96.1%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+      --primary: 221.2 83.2% 53.3%;
+      --secondary: 210 40% 96.1%;
+      --accent: 210 40% 96.1%;
+      --border: 214.3 31.8% 91.4%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      line-height: 1.6;
+    }
+
+    /* ==================== MENTORS SECTION ==================== */
+    .mentors-section {
+      padding: 80px 20px;
+      background: linear-gradient(135deg, hsl(221 83% 53% / 0.05) 0%, hsl(280 83% 53% / 0.05) 100%);
+    }
+
+    .mentors-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 60px;
+      background: linear-gradient(135deg, hsl(221 83% 53%), hsl(280 83% 53%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .testimonials-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    .testimonial-image-container {
+      position: relative;
+      height: 320px;
+      width: 100%;
+    }
+
+    .testimonial-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: scale(0.9) rotateY(10deg);
+    }
+
+    .testimonial-image.active {
+      opacity: 1;
+      transform: scale(1) rotateY(0deg);
+      z-index: 10;
+    }
+
+    .testimonial-image.inactive {
+      opacity: 0.5;
+      transform: scale(0.95) rotateY(-5deg);
+    }
+
+    .testimonial-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+      min-height: 280px;
+    }
+
+    .testimonial-text-container {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease-out;
+    }
+
+    .testimonial-text-container.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 4px;
+    }
+
+    .testimonial-designation {
+      font-size: 0.875rem;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 24px;
+    }
+
+    .testimonial-quote {
+      font-size: 1.125rem;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.7;
+    }
+
+    .testimonial-quote .word {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(5px);
+      animation: wordReveal 0.3s ease-out forwards;
+    }
+
+    @keyframes wordReveal {
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+
+    .testimonial-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: hsl(var(--secondary));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: hsl(var(--primary));
+    }
+
+    .nav-btn:hover svg {
+      color: white;
+      transform: rotate(12deg);
+    }
+
+    .nav-btn svg {
+      width: 20px;
+      height: 20px;
+      color: hsl(var(--foreground));
+      transition: all 0.3s ease;
+    }
+
+    /* ==================== STUDENTS SECTION ==================== */
+    .students-section {
+      padding: 80px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(221 83% 53% / 0.03) 100%);
+    }
+
+    .students-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, hsl(221 83% 53%), hsl(280 83% 53%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .students-section p {
+      text-align: center;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .sphere-container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      cursor: grab;
+      user-select: none;
+      perspective: 1000px;
+    }
+
+    .sphere-container:active {
+      cursor: grabbing;
+    }
+
+    @media (max-width: 768px) {
+      .sphere-container {
+        width: 350px;
+        height: 350px;
+      }
+    }
+
+    .sphere-image {
+      position: absolute;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease-out;
+      cursor: pointer;
+    }
+
+    .sphere-image:hover {
+      transform: scale(1.2) !important;
+      z-index: 1000 !important;
+    }
+
+    .sphere-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      overflow: hidden;
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+
+    .modal-info {
+      padding: 24px;
+    }
+
+    .modal-info h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal-info p {
+      color: hsl(var(--muted-foreground));
+      text-align: left;
+      margin-bottom: 0;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-image-container {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== MENTORS SECTION ==================== -->
+  <section class="mentors-section">
+    <h2>Bizning Mentorlar</h2>
+    <div class="testimonials-container">
+      <div class="testimonials-grid">
+        <div class="testimonial-image-container" id="imageContainer">
+          <!-- Images will be injected here -->
+        </div>
+        <div class="testimonial-content">
+          <div class="testimonial-text-container active" id="textContainer">
+            <h3 class="testimonial-name" id="mentorName"></h3>
+            <p class="testimonial-designation" id="mentorDesignation"></p>
+            <p class="testimonial-quote" id="mentorQuote"></p>
+          </div>
+          <div class="testimonial-nav">
+            <button class="nav-btn" onclick="prevMentor()">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+            <button class="nav-btn" onclick="nextMentor()">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STUDENTS SECTION ==================== -->
+  <section class="students-section">
+    <h2>Bizning Talabalar</h2>
+    <p>IT Future Hub'da ta'lim olayotgan iqtidorli talabalarimiz bilan tanishing</p>
+    <div class="sphere-container" id="sphereContainer">
+      <!-- Sphere images will be injected here -->
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <div class="modal-image-container">
+        <img class="modal-image" id="modalImage" src="" alt="">
+        <button class="modal-close" onclick="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-info">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== MENTORS DATA ====================
+    const mentors = [
+      {
+        name: "Jahongir Rahmonov",
+        designation: "Senior Software Engineer",
+        quote: "Dasturlash nafaqat kod yozish, balki muammolarni ijodiy hal qilish san'atidir. Har bir talabamizga individual yondashuv bilan kelajakning eng yaxshi mutaxassislarini tayyorlaymiz.",
+        src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop"
+      },
+      {
+        name: "Dilnoza Karimova",
+        designation: "UI/UX Design Lead",
+        quote: "Dizayn - bu faqat chiroyli ko'rinish emas, bu foydalanuvchi tajribasini yaratish. Biz talabalarimizga zamonaviy dizayn tamoyillarini o'rgatamiz.",
+        src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=500&fit=crop"
+      },
+      {
+        name: "Sardor Toshmatov",
+        designation: "Full Stack Developer",
+        quote: "Texnologiyalar tez o'zgaradi, lekin asosiy tamoyillar o'zgarmaydi. Talabalarimizga mustahkam poydevor beramiz.",
+        src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop"
+      },
+      {
+        name: "Madina Azimova",
+        designation: "Data Science Instructor",
+        quote: "Ma'lumotlar - bu yangi neft. Biz talabalarimizga katta hajmdagi ma'lumotlardan qiymat yaratishni o'rgatamiz.",
+        src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=500&fit=crop"
+      }
+    ];
+
+    let currentMentor = 0;
+    let autoplayInterval;
+
+    // Initialize mentors
+    function initMentors() {
+      const imageContainer = document.getElementById('imageContainer');
+      
+      mentors.forEach((mentor, index) => {
+        const img = document.createElement('img');
+        img.src = mentor.src;
+        img.alt = mentor.name;
+        img.className = 'testimonial-image' + (index === 0 ? ' active' : '');
+        img.dataset.index = index;
+        imageContainer.appendChild(img);
+      });
+
+      updateMentorContent(0);
+      startAutoplay();
+    }
+
+    function updateMentorContent(index) {
+      const mentor = mentors[index];
+      const nameEl = document.getElementById('mentorName');
+      const designationEl = document.getElementById('mentorDesignation');
+      const quoteEl = document.getElementById('mentorQuote');
+      const textContainer = document.getElementById('textContainer');
+
+      // Animate out
+      textContainer.classList.remove('active');
+
+      setTimeout(() => {
+        nameEl.textContent = mentor.name;
+        designationEl.textContent = mentor.designation;
+        
+        // Create word-by-word animation
+        const words = mentor.quote.split(' ');
+        quoteEl.innerHTML = words.map((word, i) => 
+          `<span class="word" style="animation-delay: ${i * 0.02}s">${word}</span> `
+        ).join('');
+
+        // Update images
+        document.querySelectorAll('.testimonial-image').forEach((img, i) => {
+          img.classList.remove('active', 'inactive');
+          if (i === index) {
+            img.classList.add('active');
+          } else {
+            img.classList.add('inactive');
+          }
+        });
+
+        // Animate in
+        textContainer.classList.add('active');
+      }, 200);
+    }
+
+    function nextMentor() {
+      currentMentor = (currentMentor + 1) % mentors.length;
+      updateMentorContent(currentMentor);
+      resetAutoplay();
+    }
+
+    function prevMentor() {
+      currentMentor = (currentMentor - 1 + mentors.length) % mentors.length;
+      updateMentorContent(currentMentor);
+      resetAutoplay();
+    }
+
+    function startAutoplay() {
+      autoplayInterval = setInterval(nextMentor, 5000);
+    }
+
+    function resetAutoplay() {
+      clearInterval(autoplayInterval);
+      startAutoplay();
+    }
+
+    // ==================== STUDENTS SPHERE ====================
+    const students = [
+      { id: 1, name: "Aziz Karimov", src: "https://images.unsplash.com/photo-1758178309498-036c3d7d73b3?w=200&h=200&fit=crop", description: "Frontend Developer" },
+      { id: 2, name: "Nilufar Saidova", src: "https://images.unsplash.com/photo-1757647016230-d6b42abc6cc9?w=200&h=200&fit=crop", description: "UI/UX Designer" },
+      { id: 3, name: "Jasur Toshev", src: "https://images.unsplash.com/photo-1757906447358-f2b2cb23d5d8?w=200&h=200&fit=crop", description: "Backend Developer" },
+      { id: 4, name: "Sevara Rahimova", src: "https://images.unsplash.com/photo-1742201877377-03d18a323c18?w=200&h=200&fit=crop", description: "Mobile Developer" },
+      { id: 5, name: "Bobur Aliyev", src: "https://images.unsplash.com/photo-1757081791153-3f48cd8c67ac?w=200&h=200&fit=crop", description: "Data Analyst" },
+      { id: 6, name: "Dilbar Umarova", src: "https://images.unsplash.com/photo-1757626961383-be254afee9a0?w=200&h=200&fit=crop", description: "Full Stack Developer" },
+      { id: 7, name: "Timur Nazarov", src: "https://images.unsplash.com/photo-1756748371390-099e4e6683ae?w=200&h=200&fit=crop", description: "DevOps Engineer" },
+      { id: 8, name: "Gulnora Xasanova", src: "https://images.unsplash.com/photo-1755884405235-5c0213aa3374?w=200&h=200&fit=crop", description: "QA Engineer" },
+      { id: 9, name: "Sherzod Qodirov", src: "https://images.unsplash.com/photo-1757495404191-e94ed7e70046?w=200&h=200&fit=crop", description: "Cloud Architect" },
+      { id: 10, name: "Kamola Ergasheva", src: "https://images.unsplash.com/photo-1756197256528-f9e6fcb82b04?w=200&h=200&fit=crop", description: "Project Manager" },
+      { id: 11, name: "Nodir Ismoilov", src: "https://images.unsplash.com/photo-1534083220759-4c3c00112ea0?w=200&h=200&fit=crop", description: "Security Specialist" },
+      { id: 12, name: "Zarina Yusupova", src: "https://images.unsplash.com/photo-1755278338891-e8d8481ff087?w=200&h=200&fit=crop", description: "ML Engineer" }
+    ];
+
+    // Duplicate students to fill sphere
+    const allStudents = [];
+    for (let i = 0; i < 5; i++) {
+      students.forEach((s, idx) => {
+        allStudents.push({ ...s, id: `${s.id}-${i}`, uniqueId: i * students.length + idx });
+      });
+    }
+
+    const sphereContainer = document.getElementById('sphereContainer');
+    const containerSize = sphereContainer.offsetWidth || 600;
+    const sphereRadius = containerSize * 0.35;
+    const baseImageSize = containerSize * 0.12;
+
+    let rotationX = 15;
+    let rotationY = 15;
+    let velocityX = 0;
+    let velocityY = 0;
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    const autoRotateSpeed = 0.2;
+    const momentumDecay = 0.96;
+    const dragSensitivity = 0.8;
+
+    // Generate sphere positions using Fibonacci distribution
+    const positions = [];
+    const goldenRatio = (1 + Math.sqrt(5)) / 2;
+    const angleIncrement = 2 * Math.PI / goldenRatio;
+
+    allStudents.forEach((student, i) => {
+      const t = i / allStudents.length;
+      const inclination = Math.acos(1 - 2 * t);
+      const azimuth = angleIncrement * i;
+
+      let phi = inclination * (180 / Math.PI);
+      let theta = (azimuth * (180 / Math.PI)) % 360;
+
+      // Better pole coverage
+      const poleBonus = Math.pow(Math.abs(phi - 90) / 90, 0.6) * 35;
+      if (phi < 90) {
+        phi = Math.max(5, phi - poleBonus);
+      } else {
+        phi = Math.min(175, phi + poleBonus);
+      }
+
+      phi = 15 + (phi / 180) * 150;
+      theta = (theta + (Math.random() - 0.5) * 20) % 360;
+      phi = Math.max(0, Math.min(180, phi + (Math.random() - 0.5) * 10));
+
+      positions.push({ theta, phi, radius: sphereRadius });
+    });
+
+    // Create image elements
+    allStudents.forEach((student, index) => {
+      const div = document.createElement('div');
+      div.className = 'sphere-image';
+      div.style.width = baseImageSize + 'px';
+      div.style.height = baseImageSize + 'px';
+      div.dataset.index = index;
+      div.innerHTML = `<img src="${student.src}" alt="${student.name}" draggable="false">`;
+      div.onclick = () => openModal(student);
+      sphereContainer.appendChild(div);
+    });
+
+    function updateSphere() {
+      const images = sphereContainer.querySelectorAll('.sphere-image');
+      const rotXRad = rotationX * Math.PI / 180;
+      const rotYRad = rotationY * Math.PI / 180;
+
+      images.forEach((img, index) => {
+        const pos = positions[index];
+        const thetaRad = pos.theta * Math.PI / 180;
+        const phiRad = pos.phi * Math.PI / 180;
+
+        // Initial position on sphere
+        let x = pos.radius * Math.sin(phiRad) * Math.cos(thetaRad);
+        let y = pos.radius * Math.cos(phiRad);
+        let z = pos.radius * Math.sin(phiRad) * Math.sin(thetaRad);
+
+        // Apply Y-axis rotation
+        const x1 = x * Math.cos(rotYRad) + z * Math.sin(rotYRad);
+        const z1 = -x * Math.sin(rotYRad) + z * Math.cos(rotYRad);
+        x = x1;
+        z = z1;
+
+        // Apply X-axis rotation
+        const y2 = y * Math.cos(rotXRad) - z * Math.sin(rotXRad);
+        const z2 = y * Math.sin(rotXRad) + z * Math.cos(rotXRad);
+        y = y2;
+        z = z2;
+
+        // Calculate visibility and scale
+        const fadeZoneStart = -10;
+        const fadeZoneEnd = -30;
+        let opacity = 1;
+        
+        if (z <= fadeZoneStart) {
+          opacity = Math.max(0, (z - fadeZoneEnd) / (fadeZoneStart - fadeZoneEnd));
+        }
+
+        const distanceFromCenter = Math.sqrt(x * x + y * y);
+        const distanceRatio = Math.min(distanceFromCenter / sphereRadius, 1);
+        const centerScale = Math.max(0.3, 1 - distanceRatio * 0.7);
+        const depthScale = (z + sphereRadius) / (2 * sphereRadius);
+        const scale = centerScale * Math.max(0.5, 0.8 + depthScale * 0.3);
+
+        const size = baseImageSize * scale;
+        const left = containerSize / 2 + x - size / 2;
+        const top = containerSize / 2 + y - size / 2;
+
+        img.style.width = size + 'px';
+        img.style.height = size + 'px';
+        img.style.left = left + 'px';
+        img.style.top = top + 'px';
+        img.style.opacity = opacity;
+        img.style.zIndex = Math.round(1000 + z);
+        img.style.display = z > fadeZoneEnd ? 'block' : 'none';
+      });
+    }
+
+    function animate() {
+      if (!isDragging) {
+        velocityX *= momentumDecay;
+        velocityY *= momentumDecay;
+
+        rotationY += autoRotateSpeed + velocityY;
+        rotationX += velocityX;
+
+        // Normalize angles
+        while (rotationX > 180) rotationX -= 360;
+        while (rotationX < -180) rotationX += 360;
+        while (rotationY > 180) rotationY -= 360;
+        while (rotationY < -180) rotationY += 360;
+      }
+
+      updateSphere();
+      requestAnimationFrame(animate);
+    }
+
+    // Mouse events
+    sphereContainer.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      velocityX = 0;
+      velocityY = 0;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+
+      const deltaX = e.clientX - lastMouseX;
+      const deltaY = e.clientY - lastMouseY;
+
+      rotationY += deltaX * dragSensitivity;
+      rotationX -= deltaY * dragSensitivity;
+
+      velocityY = deltaX * dragSensitivity;
+      velocityX = -deltaY * dragSensitivity;
+
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    // Touch events
+    sphereContainer.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      lastMouseX = e.touches[0].clientX;
+      lastMouseY = e.touches[0].clientY;
+      velocityX = 0;
+      velocityY = 0;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+
+      const deltaX = e.touches[0].clientX - lastMouseX;
+      const deltaY = e.touches[0].clientY - lastMouseY;
+
+      rotationY += deltaX * dragSensitivity;
+      rotationX -= deltaY * dragSensitivity;
+
+      velocityY = deltaX * dragSensitivity;
+      velocityX = -deltaY * dragSensitivity;
+
+      lastMouseX = e.touches[0].clientX;
+      lastMouseY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    // Modal functions
+    function openModal(student) {
+      const modal = document.getElementById('modal');
+      document.getElementById('modalImage').src = student.src;
+      document.getElementById('modalTitle').textContent = student.name;
+      document.getElementById('modalDescription').textContent = student.description;
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') {
+        closeModal();
+      }
+    });
+
+    // Initialize
+    initMentors();
+    animate();
+  </script>
+</body>
+</html>
