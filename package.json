@@ -5,6 +5,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "autoprefixer": "^10.4.22",
+    "lovable-tagger": "^1.1.11",
     "lucide-react": "^0.556.0",
     "postcss": "^8.5.6",
     "react": "^19.2.1",
